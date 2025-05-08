@@ -5,9 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const error = document.getElementById("error-message");
     const tg = window.Telegram.WebApp;
 
-    // Expand the WebApp to full screen (optional)
-    tg.expand();
-
     let tasks = [];
 
     // Load tasks from Telegram storage
