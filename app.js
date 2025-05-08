@@ -2,11 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("task-form");
     const input = document.getElementById("task-input");
     const list = document.getElementById("task-list");
+    const tg = window.Telegram.WebApp;
   
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    let tasks = JSON.parse(tg.getItem("tasks")) || [];
   
     function saveTasks() {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+      tg.setItem("tasks", JSON.stringify(tasks));
     }
   
     function renderTasks() {
