@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Telegram To-Do</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-webapp.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 My Tasks</h1>
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Add a new task..." required />
+      <button type="submit">➕ Add</button>
+    </form>
+    <ul id="task-list"></ul>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
