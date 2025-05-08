@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Load tasks from Telegram storage
     try {
-        const savedTasks = tg.getItem("tasks");
+        const savedTasks = tg.DeviceStorage.getItem("tasks");
         tasks = savedTasks ? JSON.parse(savedTasks) : [];
     } catch (e) {
         console.error("Failed to parse tasks:", e);
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function saveTasks() {
-        tg.setItem("tasks", JSON.stringify(tasks));
+        tg.DeviceStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
     function renderTasks() {
