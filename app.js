@@ -10,33 +10,54 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize the app with Telegram
     tg.ready();
     
+    // Function to display errors in the UI
+    function showError(message) {
+        error.textContent = message;
+        error.style.display = "block";
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            error.style.display = "none";
+        }, 5000);
+    }
+    
     // Load tasks from Telegram's CloudStorage
     function loadTasks() {
-        tg.CloudStorage.getItem("tasks", function(err, value) {
-            if (err) {
-                console.error("Error loading tasks:", err);
-                return;
-            }
-            
-            try {
-                tasks = value ? JSON.parse(value) : [];
-                renderTasks();
-            } catch (e) {
-                console.error("Failed to parse tasks:", e);
-                tasks = [];
-                renderTasks();
-            }
-        });
+        try {
+            tg.CloudStorage.getItem("tasks", function(err, value) {
+                if (err) {
+                    showError("Error loading tasks: " + err.toString());
+                    return;
+                }
+                
+                try {
+                    tasks = value ? JSON.parse(value) : [];
+                    renderTasks();
+                } catch (e) {
+                    showError("Failed to parse tasks: " + e.toString());
+                    tasks = [];
+                    renderTasks();
+                }
+            });
+        } catch (e) {
+            showError("CloudStorage error: " + e.toString());
+            tasks = [];
+            renderTasks();
+        }
     }
 
     // Save tasks to Telegram's CloudStorage
     function saveTasks() {
-        const tasksJson = JSON.stringify(tasks);
-        tg.CloudStorage.setItem("tasks", tasksJson, function(err) {
-            if (err) {
-                console.error("Error saving tasks:", err);
-            }
-        });
+        try {
+            const tasksJson = JSON.stringify(tasks);
+            tg.CloudStorage.setItem("tasks", tasksJson, function(err) {
+                if (err) {
+                    showError("Error saving tasks: " + err.toString());
+                }
+            });
+        } catch (e) {
+            showError("Save error: " + e.toString());
+        }
     }
 
     function renderTasks() {
@@ -85,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const text = input.value.trim();
 
         if (text === "") {
-            error.style.display = "block";
+            showError("Please enter a task.");
             return;
         }
 
