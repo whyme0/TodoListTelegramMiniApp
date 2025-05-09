@@ -7,17 +7,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let tasks = [];
 
-    // Load tasks from Telegram storage
-    try {
-        const savedTasks = tg.DeviceStorage.getItem("tasks");
-        tasks = savedTasks ? JSON.parse(savedTasks) : [];
-    } catch (e) {
-        console.error("Failed to parse tasks:", e);
-        tasks = [];
+    // Initialize the app with Telegram
+    tg.ready();
+    
+    // Load tasks from Telegram's CloudStorage
+    function loadTasks() {
+        tg.CloudStorage.getItem("tasks", function(err, value) {
+            if (err) {
+                console.error("Error loading tasks:", err);
+                return;
+            }
+            
+            try {
+                tasks = value ? JSON.parse(value) : [];
+                renderTasks();
+            } catch (e) {
+                console.error("Failed to parse tasks:", e);
+                tasks = [];
+                renderTasks();
+            }
+        });
     }
 
+    // Save tasks to Telegram's CloudStorage
     function saveTasks() {
-        tg.DeviceStorage.setItem("tasks", JSON.stringify(tasks));
+        const tasksJson = JSON.stringify(tasks);
+        tg.CloudStorage.setItem("tasks", tasksJson, function(err) {
+            if (err) {
+                console.error("Error saving tasks:", err);
+            }
+        });
     }
 
     function renderTasks() {
@@ -75,6 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
         input.value = "";
     });
 
-    // Initial render
-    renderTasks();
+    // Initial load and render
+    loadTasks();
 });
