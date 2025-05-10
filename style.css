@@ -1,80 +1,154 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
+/* Reset and base styles */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  background-color: #F6F7F8; /* Telegram light background */
+  color: #2E2E2E; /* Telegram primary text */
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
+  overscroll-behavior: none; /* Prevent pull-to-refresh */
 }
 
+/* Container */
 .container {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF; /* White card-like background */
 }
 
-h1 {
+/* Header */
+.header {
+  padding: 16px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D8D8D8; /* Subtle divider */
   text-align: center;
-  color: #333;
 }
 
+.header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto; /* Allow scrolling for long task lists */
+}
+
+/* Input section */
 .input-section {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 #taskInput {
   flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px;
   font-size: 16px;
+  border: 1px solid #D8D8D8;
+  border-radius: 8px;
+  background-color: #F0F2F5; /* Telegram input background */
+  color: #2E2E2E;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-button {
-  padding: 10px;
-  background-color: #0088cc;
-  color: white;
+#taskInput:focus {
+  border-color: #0088CC; /* Telegram blue highlight */
+}
+
+.input-section button {
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: #0088CC; /* Telegram blue */
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  transition: background-color 0.2s;
 }
 
-button:hover {
-  background-color: #006b9f;
+.input-section button:hover {
+  background-color: #006B9F; /* Darker blue on hover */
+}
+
+/* Task list */
+.task-list {
+  list-style: none;
+}
+
+.task-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E8ECEF; /* Subtle divider */
+  font-size: 16px;
+  color: #2E2E2E;
+  transition: background-color 0.2s;
+}
+
+.task-list li:hover {
+  background-color: #F6F7F8; /* Light hover effect */
+}
+
+.task-list li button {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: #FF3B30; /* Telegram red for delete */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.task-list li button:hover {
+  background-color: #CC0000; /* Darker red on hover */
+}
+
+/* Footer */
+.footer {
+  padding: 16px;
+  border-top: 1px solid #D8D8D8;
+  background-color: #FFFFFF;
 }
 
 .close-btn {
   width: 100%;
-  background-color: #ff4444;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: #FF3B30; /* Red for close, consistent with Telegram */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .close-btn:hover {
-  background-color: #cc0000;
+  background-color: #CC0000;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+/* Telegram Web App adjustments */
+@media (max-width: 600px) {
+  .container {
+    height: 100%; /* Full height for Telegram Web App */
+  }
 }
-
-li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-li button {
-  background-color: #ff4444;
-  padding: 5px 10px;
-}
-
