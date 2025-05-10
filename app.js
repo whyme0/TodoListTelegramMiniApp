@@ -2,8 +2,8 @@
 const WebApp = window.Telegram.WebApp;
 WebApp.ready();
 
-// Load tasks from localStorage
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+// Load tasks from WebApp.DeviceStorage
+let tasks = JSON.parse(WebApp.DeviceStorage.getItem('tasks')) || [];
 
 // Render tasks
 function renderTasks() {
@@ -25,7 +25,7 @@ function addTask() {
   const task = taskInput.value.trim();
   if (task) {
     tasks.push(task);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    WebApp.DeviceStorage.setItem('tasks', JSON.stringify(tasks));
     taskInput.value = '';
     renderTasks();
     // Optionally send data to bot
@@ -36,7 +36,7 @@ function addTask() {
 // Delete a task
 function deleteTask(index) {
   tasks.splice(index, 1);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  WebApp.DeviceStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
   // Optionally send data to bot
   WebApp.sendData(JSON.stringify({ action: 'delete', index }));
