@@ -1,13 +1,25 @@
-// Initialize Telegram Web App
 const WebApp = window.Telegram.WebApp;
 WebApp.ready();
 
-// Load tasks from WebApp.DeviceStorage
-let tasks = JSON.parse(WebApp.DeviceStorage.getItem('tasks')) || [];
+// Initialize tasks
+let tasks = [];
+try {
+  const storedTasks = localStorage.getItem('tasks');
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks) || [];
+  }
+} catch (e) {
+  console.error('Error parsing tasks from localStorage:', e);
+  tasks = [];
+}
 
 // Render tasks
 function renderTasks() {
   const taskList = document.getElementById('taskList');
+  if (!taskList) {
+    console.error('taskList element not found');
+    return;
+  }
   taskList.innerHTML = '';
   tasks.forEach((task, index) => {
     const li = document.createElement('li');
@@ -25,7 +37,7 @@ function addTask() {
   const task = taskInput.value.trim();
   if (task) {
     tasks.push(task);
-    WebApp.DeviceStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Fixed storage
     taskInput.value = '';
     renderTasks();
     // Optionally send data to bot
@@ -36,7 +48,7 @@ function addTask() {
 // Delete a task
 function deleteTask(index) {
   tasks.splice(index, 1);
-  WebApp.DeviceStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
   // Optionally send data to bot
   WebApp.sendData(JSON.stringify({ action: 'delete', index }));
@@ -50,3 +62,4 @@ renderTasks();
 WebApp.MainButton.setText('Save Tasks').show().onClick(() => {
   WebApp.sendData(JSON.stringify({ action: 'save', tasks }));
 });
+
