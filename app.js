@@ -4,12 +4,12 @@ WebApp.ready();
 // Initialize tasks
 let tasks = [];
 try {
-  const storedTasks = localStorage.getItem('tasks');
+  const storedTasks = WebApp.CloudStorage.getItem('tasks');
   if (storedTasks) {
     tasks = JSON.parse(storedTasks) || [];
   }
 } catch (e) {
-  console.error('Error parsing tasks from localStorage:', e);
+  console.error('Error parsing tasks from WebApp.CloudStorage:', e);
   tasks = [];
 }
 
@@ -37,7 +37,7 @@ function addTask() {
   const task = taskInput.value.trim();
   if (task) {
     tasks.push(task);
-    localStorage.setItem('tasks', JSON.stringify(tasks)); // Fixed storage
+    WebApp.CloudStorage.setItem('tasks', JSON.stringify(tasks)); // Fixed storage
     taskInput.value = '';
     renderTasks();
     // Optionally send data to bot
@@ -48,7 +48,7 @@ function addTask() {
 // Delete a task
 function deleteTask(index) {
   tasks.splice(index, 1);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  WebApp.CloudStorage.setItem('tasks', JSON.stringify(tasks));
   renderTasks();
   // Optionally send data to bot
   WebApp.sendData(JSON.stringify({ action: 'delete', index }));
