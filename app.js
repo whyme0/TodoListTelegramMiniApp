@@ -54,6 +54,12 @@ function deleteTask(index) {
   WebApp.sendData(JSON.stringify({ action: 'delete', index }));
 }
 
+// Add a function to play sound
+function playSound() {
+  const audio = new Audio('static/huh.mp3');
+  audio.play();
+}
+
 // Initialize the app
 WebApp.expand(); // Make the app full-screen
 renderTasks();
